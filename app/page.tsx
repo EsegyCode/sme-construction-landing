@@ -108,6 +108,56 @@ export default function Home() {
       {/* Підключення калькулятора */}
       <CalcModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       
+    {/* ================= SERVICES SECTION ================= */}
+      <section id="services" className="py-24 px-8 md:px-16 bg-[#121212]">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-black mb-16 text-white" style={{ fontFamily: "'Georgia', serif" }}>Наші послуги</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { title: "Проєктування", desc: "Створення індивідуальних архітектурних проєктів під ваш запит." },
+              { title: "Будівництво", desc: "Зведення конструктиву будинку будь-якої складності." },
+              { title: "Оздоблення", desc: "Фінішні роботи та облаштування прилеглої території." }
+            ].map((service, i) => (
+              <div key={i} className="p-8 border border-gray-800 hover:border-orange-500 transition-colors bg-[#1A1A1A]">
+                <h3 className="text-xl font-bold mb-4">{service.title}</h3>
+                <p className="text-gray-400">{service.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================= PROJECTS SECTION ================= */}
+      <section id="projects" className="py-24 px-8 md:px-16 bg-[#111111]">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-black mb-16 text-white" style={{ fontFamily: "'Georgia', serif" }}>Наші проєкти</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {projects.map((p, i) => (
+              <div key={i} className="group cursor-pointer">
+                <div className="relative h-64 overflow-hidden mb-4">
+                  <Image src={p.image} alt={p.title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                </div>
+                <h3 className="text-lg font-bold">{p.title}</h3>
+                <p className="text-orange-500 text-sm">{p.location}</p>
+                <p className="text-gray-500 text-sm">{p.area} • {p.material}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================= CONTACTS SECTION ================= */}
+      <section id="contacts" className="py-24 px-8 md:px-16 bg-[#0a0a0a]">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-4xl font-black mb-8 text-white" style={{ fontFamily: "'Georgia', serif" }}>Готові до початку?</h2>
+          <p className="text-gray-400 mb-12">Зв'яжіться з нами для безкоштовної консультації та прорахунку вартості вашого майбутнього дому.</p>
+          <div className="flex flex-col gap-4 items-center">
+            <a href="tel:+380990000000" className="text-2xl font-bold hover:text-orange-500 transition-colors">+380 (99) 000-00-00</a>
+            <p className="text-gray-500">м. Київ, вул. Будівельна, 1</p>
+          </div>
+        </div>
+      </section>
+
     </main>
   );
 }
