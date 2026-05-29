@@ -423,27 +423,53 @@ export default function Home() {
 
                 {/* Фіксація розрахунку телефоном */}
                 <form 
-                  onSubmit={(e) => { 
-                    e.preventDefault(); 
-                    alert(`Розрахунок на суму ${totalPrice.toLocaleString("uk-UA")} грн зафіксовано! Менеджер зв'яжеться з вами.`); 
-                    setIsModalOpen(false); 
-                  }} 
-                  className="mt-6 space-y-3"
-                >
-                  <div>
-                    <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-1 font-bold">Зберегти кошторис (Телефон)</label>
-                    <input 
-                      required type="tel" placeholder="+380 (__) ___-__-__" 
-                      className="w-full bg-[#161616] border border-gray-800 px-3 py-2.5 text-sm text-white focus:border-orange-500 focus:outline-none rounded-none placeholder:text-gray-700"
-                    />
-                  </div>
-                  <button 
-                    type="submit"
-                    className="w-full bg-orange-500 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-orange-400 transition-colors duration-150"
-                  >
-                    Зафіксувати ціну
-                  </button>
-                </form>
+  onSubmit={(e) => { 
+    e.preventDefault(); 
+    
+    // 1. Вкажіть тут свій номер телефону (тільки цифри, без +, починаючи з 380)
+    const myWhatsAppNumber = "380997011256"; 
+
+    // 2. Визначаємо назву матеріалу для тексту
+    const materialName = wallMaterial === 'gasblock' ? 'Газоблок' : wallMaterial === 'brick' ? 'Цегла' : 'Керамоблок';
+
+    // 3. Формуємо красивий текст повідомлення
+    const messageText = `🔥 Нова заявка на розрахунок котеджу!\n\n` +
+                        `📐 Розміри: ${fLength}м x ${fWidth}м\n` +
+                        `🏢 Поверховість: ${floors} пов.\n` +
+                        `🏡 Загальна площа: ${area} м²\n` +
+                        `🧱 Матеріал стін: ${materialName}\n` +
+                        `💧 Вода: ${includeWater ? 'Потрібно' : 'Ні'}\n` +
+                        `⚡ Електрика: ${includeElectricity ? 'Потрібно' : 'Ні'}\n\n` +
+                        `💰 Попередня вартість: ${totalPrice.toLocaleString("uk-UA")} грн\n\n` +
+                        `📞 Мій номер для зв'язку (заявника): ${e.currentTarget.phoneInput.value}`;
+
+    // 4. Кодуємо текст, щоб перетворити пробіли та смайли в безпечний для браузера формат (URL-encode)
+    const encodedText = encodeURIComponent(messageText);
+
+    // 5. Відкриваємо WhatsApp в новій вкладці
+    window.open(`https://wa.me/${myWhatsAppNumber}?text=${encodedText}`, '_blank');
+    
+    setIsModalOpen(false); 
+  }} 
+  className="mt-6 space-y-3"
+>
+  <div>
+    <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-1 font-bold">Ваш номер телефону</label>
+    <input 
+      required 
+      name="phoneInput" // Додали ім'я, щоб зчитати значення
+      type="tel" 
+      placeholder="+380 (__) ___-__-__" 
+      className="w-full bg-[#161616] border border-gray-800 px-3 py-2.5 text-sm text-white focus:border-orange-500 focus:outline-none rounded-none placeholder:text-gray-700"
+    />
+  </div>
+  <button 
+    type="submit"
+    className="w-full bg-orange-500 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-orange-400 transition-colors duration-150"
+  >
+    Надіслати розрахунок у WhatsApp
+  </button>
+</form>
 
               </div>
 
@@ -452,6 +478,21 @@ export default function Home() {
           </div>
         </div>
       )}
+      {/* ================= FLOATING WHATSAPP BUTTON ================= */}
+      <a 
+        href="https://wa.me/380671234567?text=Доброго%20дня!%20Хочу%20отримати%20консультацію%20щодо%20будівництва%20котеджу." 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 group"
+      >
+        {/* Пульсуючий ефект навколо кнопки */}
+        <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-40 animate-ping group-hover:opacity-0" />
+        
+        {/* Іконка WhatsApp */}
+        <svg className="h-7 w-7 fill-white relative z-10" viewBox="0 0 24 24">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.66.986 3.298 1.448 4.81c.002 0 .003 0 .005.001 5.322 0 9.65-4.305 9.654-9.597.002-2.563-1.002-4.97-2.83-6.796-.1.08-.2.17-.3.25-1.72-1.72-4.009-2.667-6.44-2.669-5.328 0-9.655 4.305-9.66 9.598-.002 1.93.57 3.804 1.654 5.416l-.993 3.627 3.73-.974zm11.215-5.226c-.3-.149-1.774-.874-2.048-.973-.274-.1-.474-.149-.674.149-.2.3-.774.974-.95 1.174-.175.2-.35.225-.65.075-1.05-.525-1.78-.975-2.48-2.175-.175-.3-.175-.55-.05-.7.115-.135.25-.3.375-.45.125-.15.165-.25.25-.425.085-.175.04-.325-.02-.475-.06-.15-.474-1.149-.65-1.574-.171-.413-.34-.356-.474-.362-.12-.005-.26-.006-.4-.006s-.365.05-.555.26c-.19.21-.725.71-0.725 1.732s.744 2.01 1.05 2.417c.3.407 1.463 2.234 3.543 3.133 1.11.48 1.83.67 2.455.77.625.1 1.19.07 1.64.002.5-.075 1.774-.724 2.023-1.424.25-.7.25-1.299.175-1.424-.075-.125-.275-.2-.575-.35z" />
+        </svg>
+      </a>
     </main>
   );
 }
