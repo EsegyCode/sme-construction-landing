@@ -480,7 +480,7 @@ export default function Home() {
       )}
       {/* ================= FLOATING WHATSAPP BUTTON ================= */}
       <a 
-        href="https://wa.me/380671234567?text=Доброго%20дня!%20Хочу%20отримати%20консультацію%20щодо%20будівництва%20котеджу." 
+        href="https://wa.me/380997011256?text=Доброго%20дня!%20Хочу%20отримати%20консультацію%20щодо%20будівництва%20котеджу." 
         target="_blank" 
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 group"
